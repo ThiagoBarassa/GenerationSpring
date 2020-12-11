@@ -1,5 +1,6 @@
 package br.com.generation.minhaEscola.Model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,7 +27,7 @@ public class Aluno {
 	private boolean matricula;
 	
 	@ManyToOne
-	@JsonIgnoreProperties("alunos")
+	@JsonIgnoreProperties("aluno")
 	private Turma turma;
 
 	public Turma getTurma() {
