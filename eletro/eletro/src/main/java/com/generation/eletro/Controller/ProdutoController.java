@@ -53,4 +53,9 @@ public class ProdutoController {
 	public ResponseEntity<List<Produto>> GetAllByPreco(@PathVariable float valori,@PathVariable float valorf){
 		return ResponseEntity.ok(repository.GetAllByPreco(valori,valorf));
 	}
+	@GetMapping("/tipo/{tipoid}/{valor}")
+	public ResponseEntity<List<Produto>> GetByIdAndPreco(@PathVariable long tipoid, @PathVariable float valor){
+		return  ResponseEntity.ok(repository.GetByIdAndPreco(tipoid, valor));
+
+	}
 }
