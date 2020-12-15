@@ -49,13 +49,29 @@ public class ProdutoController {
 	public void Delete(@PathVariable long id) {
 		repository.deleteById(id);
 	}
+	
+	//Metodos com Endpoints JPA
+		@GetMapping("/preco/{valori}/{valorf}")
+		public ResponseEntity<List<Produto>> findByPrecoBetween(@PathVariable float valori,@PathVariable float valorf){
+			return ResponseEntity.ok(repository.findByPrecoBetween(valori, valorf));
+		}
+		@GetMapping("/tipo/{tipoid}/{valor}")
+		public ResponseEntity<List<Produto>> findByIdAndPrecoLessThanEqual(@PathVariable long tipoid, @PathVariable float valor){
+			return ResponseEntity.ok(repository.findByIdAndPrecoLessThanEqual(tipoid, valor));
+		}
+		
+	//Metodos com Query nativa SQL
+	/*
 	@GetMapping("/preco/{valori}/{valorf}")
 	public ResponseEntity<List<Produto>> GetAllByPreco(@PathVariable float valori,@PathVariable float valorf){
 		return ResponseEntity.ok(repository.GetAllByPreco(valori,valorf));
 	}
-	@GetMapping("/tipo/{tipoid}/{valor}")
-	public ResponseEntity<List<Produto>> GetByIdAndPreco(@PathVariable long tipoid, @PathVariable float valor){
-		return  ResponseEntity.ok(repository.GetByIdAndPreco(tipoid, valor));
-
-	}
+	
+	 * @GetMapping("/tipo/{tipoid}/{valor}") public ResponseEntity<List<Produto>>
+	 * GetByIdAndPreco(@PathVariable long tipoid, @PathVariable float valor){ return
+	 * ResponseEntity.ok(repository.GetByIdAndPreco(tipoid, valor));
+	 * 
+	 * }
+	 */
+	
 }
