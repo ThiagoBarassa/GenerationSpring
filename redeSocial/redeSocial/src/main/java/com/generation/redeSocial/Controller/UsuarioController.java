@@ -1,6 +1,7 @@
 package com.generation.redeSocial.Controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.generation.redeSocial.Model.Usuario;
+import com.generation.redeSocial.Model.UsuarioLogin;
 import com.generation.redeSocial.Repository.UsuarioRepository;
+import com.generation.redeSocial.Service.UsuarioService;
 
 @RestController
 @RequestMapping("/usuario")
@@ -26,10 +29,20 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioRepository repository;
 	
-	@PostMapping
+	@Autowired
+	private UsuarioService service;
+	
+	@PostMapping("/cadastrar")
 	public ResponseEntity<Usuario> Post(@RequestBody Usuario usuario){
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(repository.save(usuario));
+				.body(service.CadastrarUsuario(usuario));
+	}
+	@PostMapping("/logar")
+	public ResponseEntity<UsuarioLogin> Autentication(@RequestBody Optional<UsuarioLogin> user){
+		return service.Logar(user)
+				.map(resp -> ResponseEntity.ok(resp))
+				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+						.build());
 	}
 	
 	@PutMapping
@@ -52,9 +65,10 @@ public class UsuarioController {
 	public void DeleteById(@PathVariable long id) {
 		repository.deleteById(id);
 	}
-	@GetMapping("/user/{nome}")
-	public ResponseEntity<List<Usuario>> FindByUser(@PathVariable String nome){
-		return ResponseEntity.ok(repository.findAllByUserContainingIgnoreCase(nome));
-	}
+	/*
+	 * @GetMapping("/user/{nome}") public ResponseEntity<List<Usuario>>
+	 * FindByUser(@PathVariable String nome){ return
+	 * ResponseEntity.ok(repository.findAllByUserContainingIgnoreCase(nome)); }
+	 */
 	
 }

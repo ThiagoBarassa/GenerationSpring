@@ -1,5 +1,6 @@
 package com.generation.redeSocial.Model;
 
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,11 +13,14 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="usuario")
 public class Usuario {
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -25,9 +29,8 @@ public class Usuario {
 	private String nome;
 	@NotBlank
 	@Size(min=5,max=45)
-	private String email;
+	private String usuario;
 	@NotBlank
-	@Size(min=5,max=25)
 	private String senha;
 	
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
@@ -52,11 +55,11 @@ public class Usuario {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getEmail() {
-		return email;
+	public String getUsuario() {
+		return usuario;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 	public String getSenha() {
 		return senha;
