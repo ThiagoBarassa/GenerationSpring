@@ -1,4 +1,4 @@
-package com.generation.redeSocial.Controller;
+package com.generation.farmacia.Controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,16 +16,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.generation.redeSocial.Model.Usuario;
-import com.generation.redeSocial.Model.UsuarioLogin;
-import com.generation.redeSocial.Repository.UsuarioRepository;
-import com.generation.redeSocial.Service.UsuarioService;
+import com.generation.farmacia.Model.Usuario;
+import com.generation.farmacia.Model.UsuarioLogin;
+import com.generation.farmacia.Repository.UsuarioRepository;
+import com.generation.farmacia.Service.UsuarioService;
 
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/usuarios")
 @CrossOrigin("*")
 public class UsuarioController {
-	
 	@Autowired
 	private UsuarioRepository repository;
 	
@@ -33,42 +32,35 @@ public class UsuarioController {
 	private UsuarioService service;
 	
 	@PostMapping("/cadastrar")
-	public ResponseEntity<Usuario> CadastrarUsuario(@RequestBody Usuario usuario){
+	public ResponseEntity<Usuario> CadastrarUsuario(@RequestBody Usuario usuario)  {
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(service.CadastrarUsuario(usuario));
+	 
 	}
 	@PostMapping("/logar")
 	public ResponseEntity<UsuarioLogin> Autentication(@RequestBody Optional<UsuarioLogin> user){
-		return service.Logar(user)
-				.map(resp -> ResponseEntity.ok(resp))
+		return service.Logar(user).map(resp -> ResponseEntity.ok(resp))
 				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED)
 						.build());
 	}
-	
 	@PutMapping
-	public ResponseEntity<Usuario> Put(@RequestBody Usuario usuario){
-		return ResponseEntity.status(HttpStatus.OK)
-				.body(repository.save(usuario));
+	public ResponseEntity<Usuario> PutUser(@RequestBody Usuario usuario){
+		return ResponseEntity.status(HttpStatus.OK).body(repository.save(usuario));
 	}
 	@GetMapping
 	public ResponseEntity<List<Usuario>> GetAll(){
 		return ResponseEntity.ok(repository.findAll());
 	}
 	@GetMapping("/{id}")
-	public ResponseEntity<Usuario> GetById(@PathVariable long id){
+	public ResponseEntity<Usuario> findById(@PathVariable long id){
 		return repository.findById(id)
 				.map(resp -> ResponseEntity.ok(resp))
 				.orElse(ResponseEntity.notFound()
-				.build());
+						.build());
 	}
 	@DeleteMapping("/{id}")
 	public void DeleteById(@PathVariable long id) {
-		repository.deleteById(id);
+		 repository.deleteById(id);
 	}
-	/*
-	 * @GetMapping("/user/{nome}") public ResponseEntity<List<Usuario>>
-	 * FindByUser(@PathVariable String nome){ return
-	 * ResponseEntity.ok(repository.findAllByUserContainingIgnoreCase(nome)); }
-	 */
 	
 }
